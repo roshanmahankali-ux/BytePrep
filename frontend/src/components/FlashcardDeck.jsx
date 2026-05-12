@@ -4,6 +4,7 @@ import FlashcardCard from './FlashcardCard'
 import FilterBar from './FilterBar'
 import AddCardModal from './AddCardModal'
 import EditCardModal from './EditCardModal'
+import { recordReview } from '../services/api'
 
 const FlashcardDeck = () => {
   const [difficulty, setDifficulty] = useState('All')
@@ -16,7 +17,16 @@ const FlashcardDeck = () => {
   const { cards, loading, error, addCard, editCard, removeCard, toggleFavourite, resetDeck } =
     useFlashcards(activeFilter, showFavourites)
 
-  const handleDismiss = () => setCurrentIndex(prev => prev + 1)
+  const handleDismiss = async () => {
+  if (currentCard) {
+    try {
+      await recordReview(currentCard.id)
+    } catch (err) {
+      console.log("Error saving user History")
+    }
+  }
+  setCurrentIndex(prev => prev + 1)
+}
 
   const handleReset = () => {
     resetDeck()

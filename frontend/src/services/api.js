@@ -2,6 +2,14 @@ import axios from 'axios'
 
 const BASE_URL = 'http://localhost:8000/api/flashcards'
 
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
+
 // READ — filter by difficulty and/or favourite
 export const getFlashcards = async (difficulty = null, favourite = null) => {
   const params = {}
@@ -32,4 +40,9 @@ export const updateFlashcard = async (id, cardData) => {
 // DELETE - remove a card
 export const deleteFlashcard = async (id) => {
   await axios.delete(`${BASE_URL}/${id}`)
+}
+
+// RECORD user review for history, called when user clicks Next
+export const recordReview = async (cardId) => {
+  await axios.post(`${BASE_URL}/${cardId}/review`)
 }

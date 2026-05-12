@@ -1,6 +1,8 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from app.database import db
 from app.models.flashcard_DataModel import FlashcardCreate, FlashcardUpdate, FlashcardResponse
+from app.auth import get_current_user
+from datetime import datetime  
 from bson import ObjectId
 
 router = APIRouter()
@@ -66,3 +68,29 @@ async def delete_flashcard(card_id: str):
     result = await db.flashcards.delete_one({"_id": ObjectId(card_id)})
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Flashcard not found")
+
+#Saving/Creating User actions as history
+@router.post("/{card_id}/review", status_code=201)
+async def record_review(
+    card_id: str,
+    current_user=Depends(get_current_user)
+):
+    """
+    Called when a user clicks Next after flipping a card.
+    Records the review event in the history collection.
+    """
+    card = await db.flashcards.find_one({"_id": ObjectId(card_id)})
+    if not card:
+        raise HTTPException(status_code=404, detail="Card not found")
+
+    history_entry = {
+        "user_id": ObjectId(str(current_user["_id"])),
+        "card_id": ObjectId(card_id),
+        "question": card["question"],
+        "difficulty": card["difficulty"],
+        "category": card["category"],
+        "reviewed_at": datetime.utcnow()
+    }
+
+    await db.history.insert_one(history_entry)
+    return {"message": "Review recorded"}
