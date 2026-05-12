@@ -44,11 +44,10 @@ def create_access_token(data: dict) -> str:
 
 
 async def get_current_user(token: str = Depends(oauth2_scheme)):
-#async def get_current_user(current_user=Depends(get_current_user)):
     print("TYPE:", type(token))
     print("VALUE:", token)  
     """
-    Dependency — FastAPI calls this automatically on protected routes.
+    Dependency, FastAPI calls this automatically on protected routes.
     Decodes the JWT token and returns the current user from the DB.
     If the token is missing or invalid, returns 401 Unauthorized.
     """
@@ -73,7 +72,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 
 async def get_admin_user(current_user=Depends(get_current_user)):
     """
-    Dependency — only allows admin users through.
+    Dependency, only allows admin users through.
     Use this on admin-only routes.
     """
     if not current_user.get("is_admin"):

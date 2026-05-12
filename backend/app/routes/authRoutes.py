@@ -82,8 +82,7 @@ async def login(data: UserLogin):
     # Find user by email
     user = await db.users.find_one({"email": data.email})
 
-    # Intentionally vague error — don't tell attacker
-    # whether email exists or password is wrong
+    # Intentionally vague error to avoid any SQL injection related Data pharming
     if not user or not verify_password(data.password, user["hashed_password"]):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

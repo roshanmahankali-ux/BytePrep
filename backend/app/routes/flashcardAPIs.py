@@ -21,7 +21,7 @@ def format_card(card) -> dict:
 
 # READ — this is to support filtering by difficulty level  AND/OR Favourite for the questions 
 @router.get("/", response_model=list[FlashcardResponse])
-async def get_flashcards(difficulty: str = None, favourite: bool = None):
+async def get_flashcards(difficulty: str = None, favourite: bool = None, _=Depends(get_current_user)):
     query = {}
     if difficulty:
         query["difficulty"] = difficulty
@@ -32,7 +32,7 @@ async def get_flashcards(difficulty: str = None, favourite: bool = None):
 
 # READ — this is to get single flashcard by id
 @router.get("/{card_id}", response_model=FlashcardResponse)
-async def get_flashcard(card_id: str):
+async def get_flashcard(card_id: str, _=Depends(get_current_user)):
     card = await db.flashcards.find_one({"_id": ObjectId(card_id)})
     if not card:
         raise HTTPException(status_code=404, detail="Flashcard not found")
@@ -40,7 +40,7 @@ async def get_flashcard(card_id: str):
 
 # CREATE — this is to add a new flashcard
 @router.post("/", response_model=FlashcardResponse, status_code=201)
-async def create_flashcard(data: FlashcardCreate):
+async def create_flashcard(data: FlashcardCreate, _=Depends(get_current_user)):
     new_card = data.dict()
     new_card["flipped"] = False
     result = await db.flashcards.insert_one(new_card)
@@ -49,7 +49,7 @@ async def create_flashcard(data: FlashcardCreate):
 
 # UPDATE — this is to edit an existing flashcard
 @router.put("/{card_id}", response_model=FlashcardResponse)
-async def update_flashcard(card_id: str, data: FlashcardUpdate):
+async def update_flashcard(card_id: str, data: FlashcardUpdate, _=Depends(get_current_user)):
     updates = {k: v for k, v in data.dict().items() if v is not None}
     if not updates:
         raise HTTPException(status_code=400, detail="No fields to update")
@@ -64,7 +64,7 @@ async def update_flashcard(card_id: str, data: FlashcardUpdate):
 
 # DELETE — this is to remove a flashcard, returns 204 on success
 @router.delete("/{card_id}")
-async def delete_flashcard(card_id: str):
+async def delete_flashcard(card_id: str, _=Depends(get_current_user)):
     result = await db.flashcards.delete_one({"_id": ObjectId(card_id)})
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Flashcard not found")
