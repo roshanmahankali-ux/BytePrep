@@ -44,7 +44,7 @@ export default function ProfileModal({ onClose }) {
       <div className="profile-modal" onClick={e => e.stopPropagation()}>
 
         <div className="profile-header">
-          <h2>👤 My Profile</h2>
+          <h2>My Profile</h2>
           <button className="close-btn" onClick={onClose}>✕</button>
         </div>
 

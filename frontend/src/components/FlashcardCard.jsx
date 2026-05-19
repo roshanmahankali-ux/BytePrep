@@ -56,8 +56,18 @@ const FlashcardCard = ({ card, onDismiss, onDelete, onEdit, onToggleFavourite })
         >
           <BookmarkIcon filled={card.favourite} size={14} />
         </button>
-        <button className="edit-btn" onClick={() => onEdit(card)} title="Edit card">✏️</button>
-        <button className="delete-btn" onClick={() => onDelete(card.id)} title="Delete card">🗑️</button>
+        <button className="edit-btn" onClick={() => onEdit(card)} title="Edit card">✎</button>
+        <button
+            className="delete-btn"
+            onClick={() => {
+            if (confirm('Delete this card? This cannot be undone.')) {
+              onDelete(card.id)
+            }
+          }}
+        title="Delete card"
+        >
+        ⌫
+        </button>
       </div>
     </div>
   )

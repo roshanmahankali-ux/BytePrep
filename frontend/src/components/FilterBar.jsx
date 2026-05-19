@@ -26,7 +26,7 @@ const FilterBar = ({ selected, onSelect, showFavourites, onToggleFavourites, onR
       </div>
 
       <button className="reset-btn" onClick={onReset}>
-        🔄 Reset Deck
+        ⇄ Reset Deck
       </button>
     </div>
   )

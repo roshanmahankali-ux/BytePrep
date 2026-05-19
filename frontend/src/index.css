@@ -2,23 +2,32 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --pink:     #f9a8d4;
-  --pink2:    #ec4899;
-  --mint:     #6ee7b7;
-  --mint2:    #10b981;
-  --lavender: #c4b5fd;
-  --lav2:     #8b5cf6;
-  --peach:    #fdba74;
-  --sky:      #7dd3fc;
-  --bg:       #fdf2f8;
-  --surface:  #ffffff;
-  --surface2: #fce7f3;
-  --border:   #fbcfe8;
-  --text:     #4a1942;
-  --muted:    #9d6b9a;
-  --radius:   14px;
-  --shadow:   0 4px 24px rgba(236, 72, 153, 0.1);
+  --pink:       #f9a8d4;
+  --pink2:      #ec4899;
+  --pink-dark:  #ec4899;
+  --pink-light: #fbcfe8;
+  --mint:       #6ee7b7;
+  --mint2:      #10b981;
+  --lavender:   #c4b5fd;
+  --lav2:       #8b5cf6;
+  --purple:     #8b5cf6;
+  --peach:      #fdba74;
+  --sky:        #7dd3fc;
+  --bg:         #fdf2f8;
+  --surface:    #ffffff;
+  --surface2:   #fce7f3;
+  --card-bg:    #ffffff;
+  --border:     #fbcfe8;
+  --text:       #4a1942;
+  --text-dark:  #4a1942;
+  --text-light: #9d6b9a;
+  --muted:      #9d6b9a;
+  --radius:     14px;
+  --shadow:     0 4px 24px rgba(236, 72, 153, 0.1);
 }
+
+.edit-btn   { background: linear-gradient(135deg, #c4b5fd, #f9a8d4) !important; font-size: 1rem; color: var(--muted); }
+.delete-btn { background: linear-gradient(135deg, #c4b5fd, #f9a8d4) !important; font-size: 1rem; color: var(--muted); }
 
 body {
   font-family: 'Inter', 'Segoe UI', sans-serif;
@@ -86,7 +95,6 @@ body {
 .filter-btn.medium.active { background: linear-gradient(135deg, #fdba74, #f9a8d4); border-color: transparent; }
 .filter-btn.hard.active   { background: linear-gradient(135deg, #f9a8d4, #c4b5fd); border-color: transparent; }
 
-/* Favourites filter button */
 .favourite-btn {
   display: flex;
   align-items: center;
@@ -97,24 +105,24 @@ body {
 .favourite-btn:hover svg { color: var(--pink2); }
 .favourite-btn.active {
   background: linear-gradient(135deg, #c4b5fd, #f9a8d4) !important;
-  border-color: transparent !important;
+  /*border-color: transparent !important;*/
   color: var(--text) !important;
 }
-.favourite-btn.active svg { color: transparent; } /* gradient handles color */
+.favourite-btn.active svg { color: transparent; }
 
 .reset-btn {
   padding: 0.45rem 1.1rem;
   border-radius: 999px;
-  border: 2px dashed var(--border);
-  background: transparent;
+  border: none;
+  background: linear-gradient(135deg, #c4b5fd, #f9a8d4);
   color: var(--muted);
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: opacity 0.2s;
 }
 
-.reset-btn:hover { border-color: var(--lav2); color: var(--lav2); }
+.reset-btn:hover { opacity: 0.8; }
 
 /* ── Progress Bar ───────────────────────────────────────── */
 .progress-container { margin-bottom: 1.5rem; }
@@ -280,7 +288,7 @@ body {
 
 .next-btn:hover { opacity: 0.9; transform: translateY(-1px); }
 
-/* ── Badges ─────────────────────────────────────────────── */
+/* ── Difficulty Badges ──────────────────────────────────── */
 .difficulty-badge {
   display: inline-block;
   padding: 0.2rem 0.7rem;
@@ -325,23 +333,24 @@ body {
   transition: transform 0.15s, background 0.2s;
 }
 
-.bookmark-btn   { background: rgba(196,181,253,0.25); }
-.edit-btn       { background: rgba(196,181,253,0.25); }
-.delete-btn     { background: rgba(249,168,212,0.25); }
+.bookmark-btn { background: rgba(196,181,253,0.25); }
+.edit-btn     { background: rgba(196,181,253,0.25); }
+.delete-btn   { background: rgba(249,168,212,0.25); }
 
 .bookmark-btn:hover { transform: scale(1.1); background: rgba(196,181,253,0.5); }
 .edit-btn:hover     { transform: scale(1.1); background: rgba(196,181,253,0.5); }
 .delete-btn:hover   { transform: scale(1.1); background: rgba(249,168,212,0.5); }
 
 .bookmark-btn svg { color: var(--muted); }
-.bookmark-btn.bookmarked svg { color: transparent; } /* gradient fill handles it */
+.bookmark-btn.bookmarked svg { color: transparent; }
 
-/* ── Modal ──────────────────────────────────────────────── */
+/* ── Modal (Add / Edit Card) ────────────────────────────── */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(74,25,66,0.25);
-  backdrop-filter: blur(6px);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -609,7 +618,7 @@ body {
 
 .link-btn:hover { color: var(--lav2); }
 
-/* ── Header with user info ──────────────────────────────── */
+/* ── Header ─────────────────────────────────────────────── */
 .header-top {
   display: flex;
   align-items: center;
@@ -637,9 +646,7 @@ body {
   transition: opacity 0.2s;
 }
 
-.welcome-text:hover {
-  opacity: 0.7;
-}
+.welcome-text:hover { opacity: 0.7; }
 
 .logout-btn {
   padding: 0.4rem 1rem;
@@ -658,7 +665,7 @@ body {
   color: var(--pink2);
 }
 
-/* ── Admin Panel ────────────────────────────── */
+/* ── Admin Panel ────────────────────────────────────────── */
 .admin-overlay {
   position: fixed;
   inset: 0;
@@ -685,22 +692,17 @@ body {
   overflow: hidden;
 }
 
-.close-btn {
-  background: none;
-  border: none;
-  color: var(--purple);
-  font-size: 1.1rem;
-  cursor: pointer;
-  padding: 0;
-  font-family: inherit;
-  opacity: 1;
-  transition: opacity 0.2s;
+.admin-page {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 24px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 200, 230, 0.5);
+  box-shadow: 0 8px 40px rgba(200, 150, 220, 0.2);
+  overflow: hidden;
 }
-
-.close-btn:hover {
-  opacity: 0.5;
-}
-
 
 .admin-header {
   display: flex;
@@ -714,6 +716,7 @@ body {
 .admin-header h2 {
   margin: 0;
   font-size: 1.4rem;
+  font-weight: 700;
   background: linear-gradient(135deg, var(--pink-dark), var(--purple));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -727,21 +730,13 @@ body {
   font-size: 0.9rem;
 }
 
-.admin-body {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-}
-
-.admin-users {
-  flex: 1.2;
-  padding: 1.2rem 1.4rem;
+.admin-view {
+  padding: 1.5rem 1.8rem;
   overflow-y: auto;
-  border-right: 2px solid var(--pink-light);
+  flex: 1;
 }
 
-.admin-users h3,
-.admin-history h3 {
+.admin-view h3 {
   margin: 0 0 1rem 0;
   font-size: 1rem;
   color: var(--purple);
@@ -749,10 +744,38 @@ body {
 
 .admin-loading,
 .admin-empty {
-  color: var(--text-light);
+  color: var(--muted);
   font-size: 0.9rem;
 }
 
+.close-btn {
+  background: none;
+  border: none;
+  color: var(--purple);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  transition: opacity 0.2s;
+}
+
+.close-btn:hover { opacity: 0.5; }
+
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--purple);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  transition: color 0.2s;
+}
+
+.back-btn:hover { color: var(--pink-dark); }
+
+/* ── Admin Table ────────────────────────────────────────── */
 .admin-table {
   width: 100%;
   border-collapse: collapse;
@@ -775,16 +798,9 @@ body {
   transition: color 0.2s;
 }
 
-.admin-table tr:hover .user-link {
-  color: var(--pink-dark);
-}
-
+.admin-table tr:hover .user-link,
 .admin-table tr:hover .email-text {
   color: var(--pink-dark);
-}
-
-.selected-row td {
-  background: #fff0f8;
 }
 
 .user-link {
@@ -800,16 +816,9 @@ body {
   transition: color 0.2s;
 }
 
-.user-link:hover {
-  color: var(--pink-dark);
-}
-
-.badge {
-  display: inline-block;
-  padding: 0.2rem 0.6rem;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 600;
+.email-text {
+  color: var(--purple);
+  transition: color 0.2s;
 }
 
 .badge-admin,
@@ -823,13 +832,13 @@ body {
   background: none;
   border: 2px solid var(--pink-dark);
   font-family: inherit;
-  transition: background 0.2s, color 0.2s;
+  transition: color 0.2s, border-color 0.2s;
 }
 
 .badge-admin:hover,
 .badge-user:hover {
-  border-color: var(--pink2);
-  color: var(--pink2);
+  color: var(--pink-dark);
+  border-color: var(--pink-dark);
 }
 
 .action-cell {
@@ -850,21 +859,11 @@ body {
   transition: color 0.2s;
 }
 
-.remove-admin-btn {
-  color: var(--purple);
-}
+.remove-admin-btn { color: var(--purple); }
+.remove-admin-btn:hover { color: var(--pink-dark); }
 
-.remove-admin-btn:hover {
-  color: var(--pink-dark);
-}
-
-.add-admin-btn {
-  color: var(--purple);
-}
-
-.add-admin-btn:hover {
-  color: var(--pink-dark);
-}
+.add-admin-btn { color: var(--purple); }
+.add-admin-btn:hover { color: var(--pink-dark); }
 
 .red-x {
   color: #e74c3c;
@@ -883,17 +882,16 @@ body {
   transition: opacity 0.2s;
 }
 
-.delete-btn:hover {
-  opacity: 1;
+.admin-hint {
+  margin-top: 1rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+  text-align: center;
 }
 
-/* ── History panel ── */
-.admin-history {
-  flex: 1;
-  padding: 1.2rem 1.4rem;
-  overflow-y: auto;
-}
+.delete-btn:hover { opacity: 1; }
 
+/* ── History List ───────────────────────────────────────── */
 .history-list {
   display: flex;
   flex-direction: column;
@@ -934,39 +932,10 @@ body {
 
 .history-time {
   font-size: 0.75rem;
-  color: var(--text-light);
+  color: var(--muted);
 }
 
-.admin-btn {
-  background: none;
-  border: none;
-  color: var(--purple);
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
-  font-family: inherit;
-  transition: opacity 0.2s;
-}
-
-.admin-btn:hover {
-  opacity: 0.7;
-}
-
-/* ── Profile Modal ───────────────────────────── */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 200;
-  padding: 1.5rem;
-}
-
+/* ── Profile Modal ──────────────────────────────────────── */
 .profile-modal {
   background: rgba(255, 255, 255, 0.85);
   border-radius: 24px;
@@ -1055,7 +1024,6 @@ body {
 .save-btn:hover    { opacity: 0.88; }
 .save-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* ── Danger zone ── */
 .danger-zone {
   border-top: 1px solid rgba(255, 182, 213, 0.4);
   padding-top: 1rem;
@@ -1082,10 +1050,7 @@ body {
   line-height: 1.5;
 }
 
-.confirm-actions {
-  display: flex;
-  gap: 0.8rem;
-}
+.confirm-actions { display: flex; gap: 0.8rem; }
 
 .confirm-yes {
   background: #e74c3c;

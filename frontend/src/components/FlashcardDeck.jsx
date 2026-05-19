@@ -103,7 +103,7 @@ const FlashcardDeck = () => {
               ? <><p>No cards found.</p><p>Try a different filter or add new cards!</p></>
               : <><p>Hoorayyyy! All Done 💃🥳 </p><p>Great work. Wanna start reviewing again?</p></>
             }
-            <button className="reset-cta" onClick={handleReset}>🔄 Reset Deck</button>
+            <button className="reset-cta" onClick={handleReset}>⇄ Reset Deck</button>
           </div>
         ) : (
           <FlashcardCard

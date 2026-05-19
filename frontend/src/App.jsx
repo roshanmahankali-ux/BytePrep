@@ -42,13 +42,8 @@ function AppContent() {
           <h1>⚡ System Design Flashcards</h1>
           <div className="header-actions">
             <button className="welcome-text" onClick={() => setShowProfile(true)}>
-            👋 {user.username}
+             {user.username}
             </button>
-            {user.is_admin && (
-              <button className="admin-btn" onClick={() => setShowAdmin(true)}>
-                Admin
-              </button>
-            )}
             <button className="logout-btn" onClick={logout}>Log out</button>
           </div>
         </div>
@@ -56,7 +51,7 @@ function AppContent() {
       </header>
 
       <main>
-        <FlashcardDeck />
+        {user.is_admin ? <AdminPanel asPage={true} /> : <FlashcardDeck />}
       </main>
       {showAdmin && <AdminPanel onClose={() => setShowAdmin(false)} />} 
         {showProfile && <ProfileModal onClose={() => setShowProfile(false)} />}
