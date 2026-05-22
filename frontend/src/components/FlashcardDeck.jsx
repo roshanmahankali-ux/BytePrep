@@ -14,7 +14,7 @@ const FlashcardDeck = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
 
   const activeFilter = difficulty === 'All' ? null : difficulty
-  const { cards, loading, error, addCard, editCard, removeCard, toggleFavourite, resetDeck } =
+  const { cards, loading, error, addCard, editCard, removeCard, toggleFavourite, resetDeck, searchQuery, setSearchQuery } =
     useFlashcards(activeFilter, showFavourites)
 
   const handleDismiss = async () => {
@@ -31,6 +31,7 @@ const FlashcardDeck = () => {
   const handleReset = () => {
     resetDeck()
     setCurrentIndex(0)
+    setSearchQuery('')
   }
 
   const handleEdit = async (id, cardData) => {
@@ -75,6 +76,8 @@ const FlashcardDeck = () => {
         showFavourites={showFavourites}
         onToggleFavourites={handleToggleFavourites}
         onReset={handleReset}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
       />
 
       <div className="progress-container">

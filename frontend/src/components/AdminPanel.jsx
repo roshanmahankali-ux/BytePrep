@@ -11,6 +11,7 @@ export default function AdminPanel({ onClose, asPage = false }) {
   const [loadingUsers, setLoadingUsers] = useState(true)
   const [loadingHistory, setLoadingHistory] = useState(false)
   const [error, setError] = useState(null)
+  const [userSearch, setUserSearch] = useState('')
 
   useEffect(() => { fetchUsers() }, [])
 
@@ -44,6 +45,7 @@ export default function AdminPanel({ onClose, asPage = false }) {
     setView('users')
     setSelectedUser(null)
     setReviewHistory([])
+    setUserSearch('')
   }
 
   async function toggleAdmin(userId, currentIsAdmin) {
@@ -65,6 +67,12 @@ export default function AdminPanel({ onClose, asPage = false }) {
     }
   }
 
+  const filteredUsers = users.filter(u => {
+  if (!userSearch.trim()) return true
+  const q = userSearch.toLowerCase()
+  return u.username.toLowerCase().includes(q) || u.email.toLowerCase().includes(q)
+})
+
   const content = (
     <div className={asPage ? 'admin-page' : 'admin-panel'} onClick={e => e.stopPropagation()}>
 
@@ -83,6 +91,13 @@ export default function AdminPanel({ onClose, asPage = false }) {
       {/* ── Users view ── */}
       {view === 'users' && (
         <div className="admin-view">
+          <input
+            className="search-bar admin-search"
+            type="text"
+            placeholder="Search by name or email..."
+            value={userSearch}
+            onChange={e => setUserSearch(e.target.value)}
+          />
           <h3>All Users ({users.length})</h3>
           {loadingUsers ? (
             <p className="admin-loading">Loading users…</p>
@@ -98,7 +113,7 @@ export default function AdminPanel({ onClose, asPage = false }) {
                 </tr>
               </thead>
               <tbody>
-                {users.map(u => (
+                {filteredUsers.map(u => (
                   <tr key={u.id}>
                     <td>
                       <button className="user-link" onClick={() => openHistory(u.id, u.username)}>
@@ -120,7 +135,7 @@ export default function AdminPanel({ onClose, asPage = false }) {
                           ? <><span className="red-x">✕</span> Remove admin</>
                           : '↑ Make admin'}
                       </button>
-                      <button className="delete-btn" onClick={() => deleteUser(u.id, u.username)}>🗑</button>
+                      <button className="delete-btn" onClick={() => deleteUser(u.id, u.username)} title="Delete User" >⌫</button>
                     </td>
                   </tr>
                 ))}

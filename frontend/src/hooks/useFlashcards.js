@@ -5,6 +5,7 @@ export const useFlashcards = (difficulty, onlyFavourites) => {
   const [cards, setCards] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [searchQuery, setSearchQuery] = useState('')
 
   // Fetch cards whenever difficulty filter changes
   useEffect(() => {
@@ -50,5 +51,12 @@ export const useFlashcards = (difficulty, onlyFavourites) => {
 
   const resetDeck = () => fetchCards()
 
-  return { cards, loading, error, addCard, editCard, removeCard, toggleFavourite, resetDeck }
+  const filteredCards = cards.filter(c => {
+    if (!searchQuery.trim()) return true
+    const q = searchQuery.toLowerCase()
+    return c.question.toLowerCase().includes(q) || c.answer.toLowerCase().includes(q)
+  })
+
+  return { cards: filteredCards, loading, error, addCard, editCard, removeCard, toggleFavourite, resetDeck, searchQuery,
+  setSearchQuery }
 }

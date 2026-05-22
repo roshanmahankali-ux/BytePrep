@@ -1,7 +1,7 @@
 import BookmarkIcon from './BookmarkIcon'
 const DIFFICULTIES = ['All', 'Easy', 'Medium', 'Hard']
 
-const FilterBar = ({ selected, onSelect, showFavourites, onToggleFavourites, onReset }) => {
+const FilterBar = ({ selected, onSelect, showFavourites, onToggleFavourites, onReset, searchQuery, onSearchChange }) => {
   return (
     <div className="filter-bar">
       <div className="filter-buttons">
@@ -28,6 +28,13 @@ const FilterBar = ({ selected, onSelect, showFavourites, onToggleFavourites, onR
       <button className="reset-btn" onClick={onReset}>
         ⇄ Reset Deck
       </button>
+      <input
+        className="search-bar"
+        type="text"
+        placeholder="Search cards..."
+        value={searchQuery}
+        onChange={e => onSearchChange(e.target.value)}
+      />
     </div>
   )
 }
